@@ -124,10 +124,12 @@ class ViewController: UIViewController, DataScannerViewControllerDelegate {
             noti = .AVCaptureSessionDidStartRunning
         }
         NotificationCenter.default.addObserver(forName: noti, object: nil, queue: nil) { [self] notification in
-            guard self.enableTorch.isOn else {
-                return
+            Task { @MainActor in
+                guard self.enableTorch.isOn else {
+                    return
+                }
+                forceTorch()
             }
-            forceTorch()
         }
     }
     
